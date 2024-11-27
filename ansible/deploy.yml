@@ -1,18 +1,21 @@
 ---
-- name: Deploy Docker Container
-  hosts: docker_agents
-  become: true
+- name: Deploy my-java-app container
+  hosts: all
+  become: yes
   tasks:
-    - name: Pull Docker image
-      community.docker.docker_image:
+    - name: Pull Docker image from Docker Hub
+      docker_image:
         name: mydockergreens/my-java-app
         tag: latest
         source: pull
 
-    - name: Run Docker container
-      community.docker.docker_container:
-        name: java-container
+    - name: Run Docker container from the image
+      docker_container:
+        name: my-java-app
         image: mydockergreens/my-java-app:latest
         state: started
-        ports:
-          - "8070:8070"  # Map host port 8080 to container port 80
+        restart_policy: always
+        published_ports:
+          - "8070:8070"
+        volumes:
+          - /path/on/host:/path/in/container # Optional, for persistent data
