@@ -5,14 +5,14 @@
   tasks:
     - name: Pull Docker image
       community.docker.docker_image:
-        name: mydockergreens/ekart
+        name: mydockergreens/my-java-app
         tag: latest
         source: pull
 
     - name: Run Docker container
       community.docker.docker_container:
-        name: ekart-container
-        image: mydockergreens/ekart:latest
+        name: java-container
+        image: mydockergreens/my-java-app:latest
         state: started
         ports:
           - "8070:8070"  # Map host port 8080 to container port 80
